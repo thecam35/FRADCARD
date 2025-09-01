@@ -35,6 +35,7 @@
       align-items: center;
       justify-content: center;
       padding: 20px;
+      position: relative;
     }
     
     /* Preloader */
@@ -412,6 +413,76 @@
       border: 1px solid rgba(211, 47, 47, 0.1);
     }
     
+    /* Footer con condiciones */
+    .footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background-color: rgba(0, 0, 0, 0.8);
+      padding: 10px;
+      text-align: center;
+      font-size: 0.7rem;
+      color: #9e9e9e;
+      z-index: 100;
+    }
+    
+    .terms-btn {
+      position: absolute;
+      bottom: 5px;
+      right: 5px;
+      background: transparent;
+      border: none;
+      color: #555;
+      font-size: 0.6rem;
+      cursor: pointer;
+      padding: 2px 4px;
+      opacity: 0.3;
+      transition: opacity 0.3s;
+    }
+    
+    .terms-btn:hover {
+      opacity: 0.7;
+    }
+    
+    .terms-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.8);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .terms-content {
+      background-color: #1e1e1e;
+      padding: 30px;
+      border-radius: 15px;
+      max-width: 600px;
+      max-height: 80vh;
+      overflow-y: auto;
+      position: relative;
+      box-shadow: 0 5px 25px rgba(0, 0, 0, 0.5);
+      border: 1px solid var(--primary);
+    }
+    
+    .close-terms {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 24px;
+      cursor: pointer;
+      color: var(--gray);
+    }
+    
+    .close-terms:hover {
+      color: var(--light);
+    }
+    
     /* Responsive */
     @media (max-width: 768px) {
       .auth-container {
@@ -434,6 +505,11 @@
       
       .wallet-actions {
         grid-template-columns: 1fr;
+      }
+      
+      .terms-content {
+        width: 90%;
+        padding: 20px;
       }
     }
   </style>
@@ -607,6 +683,7 @@
         
         <div class="message warning">
           <p>⚠️ <strong>Esperando fondos:</strong> Una vez que hayas enviado los fondos, presiona "Activar Cuenta" para verificar la transacción.</p>
+          <p>Recarga mínima de $100 USD para activar la cuenta.</p>
         </div>
         
         <button class="btn btn-danger" id="cancel-recharge">
@@ -620,6 +697,7 @@
           <h3><i class="fas fa-cogs"></i> Activación de Cuenta</h3>
           <div id="activation-message" class="message warning">
             <p>Estamos verificando fondos, una vez tengamos la confirmación la cuenta estará activa y podrás disfrutar de la shop FradCard.</p>
+            <p>Recuerda que se requiere un depósito mínimo de $100 USD para activar tu cuenta.</p>
           </div>
           
           <div id="activation-success" style="display: none;">
@@ -634,7 +712,7 @@
           
           <div id="activation-failure" style="display: none;">
             <div class="message error">
-              <p>No se detectaron fondos. La cuenta ha quedado desactivada. Por favor, recarga tu wallet e intenta nuevamente.</p>
+              <p>No se detectaron fondos. La cuenta ha quedado desactivada. Por favor, recarga tu wallet con al menos $100 USD e intenta nuevamente.</p>
             </div>
           </div>
           
@@ -645,6 +723,40 @@
             <i class="fas fa-times"></i> Cancelar
           </button>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer con condiciones de uso -->
+  <div class="footer">
+    <p>© 2023 FradCard Wallet - Todos los derechos reservados</p>
+    <button class="terms-btn" id="terms-btn">Condiciones</button>
+  </div>
+
+  <!-- Modal de condiciones de uso -->
+  <div class="terms-modal" id="terms-modal">
+    <div class="terms-content">
+      <span class="close-terms" id="close-terms">&times;</span>
+      <h2><i class="fas fa-file-contract"></i> Condiciones de Uso</h2>
+      <p>Al utilizar FradCard Wallet, aceptas las siguientes condiciones:</p>
+      
+      <h3>Recarga Mínima</h3>
+      <p>Para activar tu cuenta y acceder a todos los servicios de FradCard, es necesario realizar una recarga mínima de $100 USD.</p>
+      
+      <h3>Política de Reembolso</h3>
+      <p>Ofrecemos reembolso del 50% si la tarjeta no funciona, siempre y cuando el problema sea reportado dentro de las 3 horas posteriores a la compra.</p>
+      
+      <h3>Privacidad y Anonimato</h3>
+      <p>Garantizamos el anonimato en todas las transacciones. No almacenamos información personal que pueda comprometer tu identidad.</p>
+      
+      <h3>Soporte Técnico</h3>
+      <p>Nuestro equipo de soporte está disponible 24/7 para asistirte con cualquier problema técnico o consulta sobre nuestros servicios.</p>
+      
+      <h3>Limitación de Responsabilidad</h3>
+      <p>FradCard no se hace responsable por el uso indebido de la plataforma o por transacciones realizadas fuera de nuestros servidores seguros.</p>
+      
+      <div class="message info">
+        <p>Al utilizar nuestros servicios, aceptas estas condiciones en su totalidad.</p>
       </div>
     </div>
   </div>
@@ -683,6 +795,9 @@
     const accountStatus = document.getElementById('account-status');
     const statusText = document.getElementById('status-text');
     const activeStatus = document.getElementById('active-status');
+    const termsBtn = document.getElementById('terms-btn');
+    const termsModal = document.getElementById('terms-modal');
+    const closeTerms = document.getElementById('close-terms');
 
     // Estado de la aplicación
     let currentUser = null;
@@ -733,6 +848,22 @@
       // Botones de activación
       confirmActivation.addEventListener('click', processActivation);
       cancelActivation.addEventListener('click', hideActivationSection);
+      
+      // Términos y condiciones
+      termsBtn.addEventListener('click', () => {
+        termsModal.style.display = 'flex';
+      });
+      
+      closeTerms.addEventListener('click', () => {
+        termsModal.style.display = 'none';
+      });
+      
+      // Cerrar modal al hacer clic fuera
+      termsModal.addEventListener('click', (e) => {
+        if (e.target === termsModal) {
+          termsModal.style.display = 'none';
+        }
+      });
     }
     
     // Manejar login
@@ -934,5 +1065,5 @@
     init();
   </script>
 </body>
-
 </html>
+
