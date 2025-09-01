@@ -3,22 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FradCard - Wallet Digital</title>
+  <title>FradCard - Mantenimiento</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    :root {
-      --primary: #d32f2f;
-      --primary-dark: #b71c1c;
-      --secondary: #212121;
-      --secondary-dark: #000000;
-      --dark: #121212;
-      --light: #f5f5f5;
-      --danger: #d32f2f;
-      --success: #388e3c;
-      --warning: #f57c00;
-      --gray: #9e9e9e;
-    }
-    
     * {
       box-sizing: border-box;
       margin: 0;
@@ -35,1035 +22,266 @@
       align-items: center;
       justify-content: center;
       padding: 20px;
-      position: relative;
     }
     
-    /* Preloader */
-    #preloader {
-      position: fixed;
-      top: 0;
-      left: 0;
+    .maintenance-container {
+      text-align: center;
+      max-width: 800px;
       width: 100%;
-      height: 100%;
-      background: linear-gradient(135deg, #000000, #121212);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      z-index: 9999;
-      color: white;
-      transition: opacity 0.5s ease-out;
+      padding: 40px;
+      background: #1e1e1e;
+      border-radius: 20px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(211, 47, 47, 0.1);
     }
     
-    .loader {
-      width: 60px;
-      height: 60px;
-      border: 5px solid rgba(255, 255, 255, 0.1);
-      border-radius: 50%;
-      border-top: 5px solid var(--primary);
-      animation: spin 1.5s linear infinite;
+    .logo {
       margin-bottom: 30px;
     }
     
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-    
-    .preloader-content {
-      text-align: center;
-      max-width: 600px;
-      padding: 20px;
-    }
-    
-    .preloader-content h1 {
+    .logo h1 {
       font-size: 2.5rem;
-      margin-bottom: 20px;
       background: linear-gradient(90deg, #d32f2f, #b71c1c);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
     
-    .preloader-content p {
-      margin: 15px 0;
-      font-size: 1.1rem;
-      line-height: 1.6;
+    .maintenance-icon {
+      font-size: 5rem;
+      color: #f57c00;
+      margin-bottom: 20px;
+      animation: pulse 2s infinite;
     }
     
-    .features {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 20px;
-      margin-top: 30px;
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
     }
     
-    .feature {
-      background: rgba(255, 255, 255, 0.05);
-      padding: 15px;
-      border-radius: 10px;
-      width: 160px;
-      text-align: center;
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(211, 47, 47, 0.2);
+    .message {
+      margin-bottom: 30px;
     }
     
-    .feature i {
+    .message h2 {
       font-size: 2rem;
+      margin-bottom: 15px;
+      color: #f57c00;
+    }
+    
+    .message p {
+      font-size: 1.2rem;
       margin-bottom: 10px;
-      color: var(--primary);
     }
     
-    /* Container principal */
-    .container {
-      max-width: 1200px;
-      width: 100%;
-      margin: 0 auto;
+    .countdown-container {
+      margin: 40px 0;
     }
     
-    /* Sistema de autenticación con flip */
-    .auth-container {
-      perspective: 1500px;
-      width: 400px;
-      height: 500px;
-      margin: 0 auto;
-      position: relative;
+    .countdown-title {
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+      color: #e0e0e0;
     }
     
-    .auth-inner {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      text-align: center;
-      transition: transform 0.8s;
-      transform-style: preserve-3d;
+    .countdown {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
     }
     
-    .auth-front, .auth-back {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      backface-visibility: hidden;
-      background: #1e1e1e;
-      border-radius: 20px;
-      padding: 30px;
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
-      border: 1px solid rgba(211, 47, 47, 0.1);
-    }
-    
-    .auth-back {
-      transform: rotateY(180deg);
-    }
-    
-    .flipped {
-      transform: rotateY(180deg);
-    }
-    
-    .auth-logo {
-      margin-bottom: 25px;
-    }
-    
-    .auth-logo h1 {
-      font-size: 28px;
-      background: linear-gradient(90deg, var(--primary), var(--primary-dark));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    
-    .auth-form {
+    .countdown-item {
+      background: linear-gradient(135deg, #d32f2f, #b71c1c);
+      width: 100px;
+      height: 100px;
+      border-radius: 10px;
       display: flex;
       flex-direction: column;
-      gap: 20px;
-    }
-    
-    .form-group {
-      text-align: left;
-    }
-    
-    .form-group label {
-      display: block;
-      margin-bottom: 8px;
-      font-weight: 600;
-      color: var(--light);
-    }
-    
-    .input-with-icon {
-      position: relative;
-    }
-    
-    .input-with-icon i {
-      position: absolute;
-      left: 15px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: var(--gray);
-    }
-    
-    .input-with-icon input {
-      width: 100%;
-      padding: 15px 15px 15px 45px;
-      border: 2px solid #333;
-      border-radius: 10px;
-      font-size: 16px;
-      transition: all 0.3s;
-      background-color: #2d2d2d;
-      color: var(--light);
-    }
-    
-    .input-with-icon input:focus {
-      border-color: var(--primary);
-      outline: none;
-      box-shadow: 0 0 0 3px rgba(211, 47, 47, 0.2);
-    }
-    
-    .btn {
-      display: inline-block;
-      padding: 15px 20px;
-      background: linear-gradient(90deg, var(--primary), var(--primary-dark));
-      color: white;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      font-size: 16px;
-      font-weight: 600;
-      text-align: center;
-      text-decoration: none;
-      transition: all 0.3s;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-    }
-    
-    .btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 7px 14px rgba(0, 0, 0, 0.4);
-      background: linear-gradient(90deg, var(--primary-dark), var(--primary));
-    }
-    
-    .btn-block {
-      display: block;
-      width: 100%;
-    }
-    
-    .auth-switch {
-      margin-top: 25px;
-      color: var(--gray);
-    }
-    
-    .auth-switch a {
-      color: var(--primary);
-      text-decoration: none;
-      font-weight: 600;
-      cursor: pointer;
-    }
-    
-    /* Dashboard */
-    #dashboard {
-      display: none;
-      width: 100%;
-    }
-    
-    .dashboard-header {
-      background: linear-gradient(90deg, var(--primary), var(--secondary));
-      color: white;
-      padding: 1.5rem;
-      display: flex;
-      justify-content: space-between;
+      justify-content: center;
       align-items: center;
-      border-radius: 15px;
-      margin-bottom: 30px;
-      box-shadow: 0 10px 15px rgba(0, 0, 0, 0.3);
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
     }
     
-    .wallet-card {
-      background: linear-gradient(135deg, var(--primary), var(--secondary-dark));
-      color: white;
-      padding: 30px;
-      border-radius: 15px;
-      margin-bottom: 30px;
-      box-shadow: 0 10px 15px rgba(0, 0, 0, 0.3);
-    }
-    
-    .wallet-actions {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 25px;
-      margin-top: 30px;
-    }
-    
-    .action-card {
-      background: #1e1e1e;
-      padding: 25px;
-      border-radius: 15px;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-      text-align: center;
-      cursor: pointer;
-      transition: all 0.3s;
-      border: 1px solid rgba(211, 47, 47, 0.1);
-    }
-    
-    .action-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
-      border-color: rgba(211, 47, 47, 0.3);
-    }
-    
-    .action-card i {
-      font-size: 2.5rem;
-      margin-bottom: 15px;
-      background: linear-gradient(90deg, var(--primary), var(--primary-dark));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    
-    /* Mensajes */
-    .message {
-      padding: 15px;
-      margin: 15px 0;
-      border-radius: 10px;
-      text-align: center;
-    }
-    
-    .error {
-      background-color: rgba(211, 47, 47, 0.1);
-      color: #ff6659;
-      border-left: 4px solid var(--danger);
-    }
-    
-    .success {
-      background-color: rgba(56, 142, 60, 0.1);
-      color: #69f0ae;
-      border-left: 4px solid var(--success);
-    }
-    
-    .warning {
-      background-color: rgba(245, 124, 0, 0.1);
-      color: #ffab40;
-      border-left: 4px solid var(--warning);
-    }
-    
-    .info {
-      background-color: rgba(33, 150, 243, 0.1);
-      color: #40c4ff;
-      border-left: 4px solid #2196f3;
-    }
-    
-    /* Secciones adicionales */
-    .wallet-address {
-      background-color: #2d2d2d;
-      padding: 15px;
-      border-radius: 10px;
-      margin: 20px 0;
-      font-family: monospace;
-      word-break: break-all;
-      text-align: center;
-      font-size: 14px;
-      border: 1px dashed #616161;
-      color: var(--light);
-    }
-    
-    .copy-btn {
-      margin-top: 10px;
-      padding: 8px 15px;
-      background-color: var(--dark);
-      color: white;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: all 0.3s;
-    }
-    
-    .copy-btn:hover {
-      background-color: var(--primary);
-    }
-    
-    .status-indicator {
-      display: inline-block;
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      margin-right: 8px;
-    }
-    
-    .status-active {
-      background-color: var(--success);
-    }
-    
-    .status-inactive {
-      background-color: var(--danger);
-    }
-    
-    .status-pending {
-      background-color: var(--warning);
-    }
-    
-    .activation-process {
-      margin-top: 30px;
-      padding: 25px;
-      background-color: #1e1e1e;
-      border-radius: 12px;
-      border-left: 4px solid var(--warning);
-    }
-    
-    .support-info {
-      margin-top: 40px;
-      padding: 25px;
-      background: linear-gradient(135deg, #2d2d2d, #1e1e1e);
-      border-radius: 12px;
-      text-align: center;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-      border: 1px solid rgba(211, 47, 47, 0.1);
-    }
-    
-    /* Footer con condiciones */
-    .footer {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      background-color: rgba(0, 0, 0, 0.8);
-      padding: 10px;
-      text-align: center;
-      font-size: 0.7rem;
-      color: #9e9e9e;
-      z-index: 100;
-    }
-    
-    .terms-btn {
+    .countdown-item:before {
+      content: '';
       position: absolute;
-      bottom: 5px;
-      right: 5px;
-      background: transparent;
-      border: none;
-      color: #555;
-      font-size: 0.6rem;
-      cursor: pointer;
-      padding: 2px 4px;
-      opacity: 0.3;
-      transition: opacity 0.3s;
-    }
-    
-    .terms-btn:hover {
-      opacity: 0.7;
-    }
-    
-    .terms-modal {
-      display: none;
-      position: fixed;
       top: 0;
       left: 0;
       width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.8);
-      z-index: 1000;
-      justify-content: center;
-      align-items: center;
+      height: 50%;
+      background: rgba(255, 255, 255, 0.1);
     }
     
-    .terms-content {
-      background-color: #1e1e1e;
-      padding: 30px;
-      border-radius: 15px;
-      max-width: 600px;
-      max-height: 80vh;
-      overflow-y: auto;
+    .countdown-value {
+      font-size: 2.5rem;
+      font-weight: bold;
+    }
+    
+    .countdown-label {
+      font-size: 0.9rem;
+      text-transform: uppercase;
+    }
+    
+    .bomb-animation {
+      margin: 30px auto;
+      width: 100px;
+      height: 150px;
       position: relative;
-      box-shadow: 0 5px 25px rgba(0, 0, 0, 0.5);
-      border: 1px solid var(--primary);
     }
     
-    .close-terms {
+    .bomb-body {
+      width: 80px;
+      height: 120px;
+      background: #333;
+      border-radius: 40px 40px 10px 10px;
+      position: relative;
+      margin: 0 auto;
+      overflow: hidden;
+    }
+    
+    .bomb-fuse {
+      width: 10px;
+      height: 40px;
+      background: #ddd;
+      border-radius: 5px;
       position: absolute;
-      top: 10px;
-      right: 15px;
-      font-size: 24px;
-      cursor: pointer;
-      color: var(--gray);
+      top: -30px;
+      left: 35px;
     }
     
-    .close-terms:hover {
-      color: var(--light);
+    .bomb-spark {
+      width: 20px;
+      height: 20px;
+      background: #ff8000;
+      border-radius: 50%;
+      position: absolute;
+      top: -50px;
+      left: 30px;
+      opacity: 0;
+      animation: spark 1s infinite;
     }
     
-    /* Responsive */
-    @media (max-width: 768px) {
-      .auth-container {
-        width: 100%;
-        height: auto;
-        perspective: none;
-      }
-      
-      .auth-inner {
-        transform: none !important;
-        height: auto;
-      }
-      
-      .auth-front, .auth-back {
-        position: relative;
-        transform: none;
-        height: auto;
-        margin-bottom: 30px;
-      }
-      
-      .wallet-actions {
-        grid-template-columns: 1fr;
-      }
-      
-      .terms-content {
-        width: 90%;
-        padding: 20px;
-      }
+    @keyframes spark {
+      0% { opacity: 0; transform: scale(0.5); }
+      50% { opacity: 1; transform: scale(1); }
+      100% { opacity: 0; transform: scale(1.5); }
+    }
+    
+    .stripes {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: repeating-linear-gradient(
+        -45deg,
+        transparent,
+        transparent 10px,
+        rgba(211, 47, 47, 0.3) 10px,
+        rgba(211, 47, 47, 0.3) 20px
+      );
+    }
+    
+    .info-box {
+      background: rgba(255, 152, 0, 0.1);
+      padding: 20px;
+      border-radius: 10px;
+      margin-top: 30px;
+      border-left: 4px solid #f57c00;
+    }
+    
+    .info-box p {
+      margin-bottom: 10px;
+    }
+    
+    .highlight {
+      color: #f57c00;
+      font-weight: bold;
     }
   </style>
 </head>
 <body>
-  <!-- Preloader -->
-  <div id="preloader">
-    <div class="loader"></div>
-    <div class="preloader-content">
-      <h1>FradCard - La Shop Más Top del Momento</h1>
-      <p><i class="fas fa-shield-alt"></i> 100% Anónimos - Transacciones Seguras</p>
-      <p><i class="fas fa-clock"></i> Soporte 24/7 - Asistencia Inmediata</p>
-      <p><i class="fas fa-money-bill-wave"></i> Reembolso del 50% si la tarjeta no funciona</p>
-      <p><i class="fas fa-exclamation-circle"></i> Condición: Debes reportar dentro de las 3 horas posteriores a la compra</p>
-      
-      <div class="features">
-        <div class="feature">
-          <i class="fas fa-lock"></i>
-          <p>Seguro</p>
+  <div class="maintenance-container">
+    <div class="logo">
+      <h1><i class="fas fa-wallet"></i> FradCard</h1>
+    </div>
+    
+    <div class="maintenance-icon">
+      <i class="fas fa-tools"></i>
+    </div>
+    
+    <div class="message">
+      <h2>¡Estamos en Mantenimiento!</h2>
+      <p>Por motivos de mantenimiento preventivo, nuestro servicio no está disponible temporalmente.</p>
+      <p>Pero no te preocupes, <strong>volveremos pronto</strong> con mejoras para ti.</p>
+    </div>
+    
+    <div class="bomb-animation">
+      <div class="bomb-spark"></div>
+      <div class="bomb-fuse"></div>
+      <div class="bomb-body">
+        <div class="stripes"></div>
+      </div>
+    </div>
+    
+    <div class="countdown-container">
+      <div class="countdown-title">Tiempo estimado para regresar:</div>
+      <div class="countdown">
+        <div class="countdown-item">
+          <div class="countdown-value" id="hours">24</div>
+          <div class="countdown-label">Horas</div>
         </div>
-        <div class="feature">
-          <i class="fas fa-bolt"></i>
-          <p>Rápido</p>
+        <div class="countdown-item">
+          <div class="countdown-value" id="minutes">00</div>
+          <div class="countdown-label">Minutos</div>
         </div>
-        <div class="feature">
-          <i class="fas fa-user-secret"></i>
-          <p>Anónimo</p>
-        </div>
-        <div class="feature">
-          <i class="fas fa-headset"></i>
-          <p>Soporte 24/7</p>
+        <div class="countdown-item">
+          <div class="countdown-value" id="seconds">00</div>
+          <div class="countdown-label">Segundos</div>
         </div>
       </div>
     </div>
-  </div>
-
-  <div class="container">
-    <!-- Sistema de Autenticación con Flip -->
-    <div id="auth-system">
-      <div class="auth-container">
-        <div class="auth-inner" id="auth-inner">
-          <!-- Front: Inicio de Sesión -->
-          <div class="auth-front">
-            <div class="auth-logo">
-              <h1><i class="fas fa-wallet"></i> FradCard Wallet</h1>
-              <p>Ingresa a tu cuenta</p>
-            </div>
-            
-            <div id="auth-message" class="message" style="display: none;"></div>
-            
-            <form class="auth-form" id="login-form">
-              <div class="form-group">
-                <label for="login-email">Correo electrónico</label>
-                <div class="input-with-icon">
-                  <i class="fas fa-envelope"></i>
-                  <input type="email" id="login-email" required>
-                </div>
-              </div>
-              
-              <div class="form-group">
-                <label for="login-password">Contraseña</label>
-                <div class="input-with-icon">
-                  <i class="fas fa-lock"></i>
-                  <input type="password" id="login-password" required>
-                </div>
-              </div>
-              
-              <button type="submit" class="btn btn-block">
-                <i class="fas fa-sign-in-alt"></i> Iniciar Sesión
-              </button>
-            </form>
-            
-            <div class="auth-switch">
-              ¿No tienes cuenta? <a id="switch-to-register">Regístrate aquí</a>
-            </div>
-          </div>
-          
-          <!-- Back: Registro -->
-          <div class="auth-back">
-            <div class="auth-logo">
-              <h1><i class="fas fa-user-plus"></i> Crear Cuenta</h1>
-              <p>Únete a nuestra comunidad</p>
-            </div>
-            
-            <form class="auth-form" id="register-form">
-              <div class="form-group">
-                <label for="register-email">Correo electrónico</label>
-                <div class="input-with-icon">
-                  <i class="fas fa-envelope"></i>
-                  <input type="email" id="register-email" required>
-                </div>
-              </div>
-              
-              <div class="form-group">
-                <label for="register-password">Contraseña</label>
-                <div class="input-with-icon">
-                  <i class="fas fa-lock"></i>
-                  <input type="password" id="register-password" required>
-                </div>
-              </div>
-              
-              <div class="form-group">
-                <label for="register-confirm">Confirmar Contraseña</label>
-                <div class="input-with-icon">
-                  <i class="fas fa-lock"></i>
-                  <input type="password" id="register-confirm" required>
-                </div>
-              </div>
-              
-              <button type="submit" class="btn btn-block">
-                <i class="fas fa-user-plus"></i> Crear Cuenta
-              </button>
-            </form>
-            
-            <div class="auth-switch">
-              ¿Ya tienes cuenta? <a id="switch-to-login">Inicia sesión aquí</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Dashboard Principal -->
-    <div id="dashboard">
-      <header class="dashboard-header">
-        <h1><i class="fas fa-wallet"></i> FradCard</h1>
-        <div>
-          <span id="account-status" class="status-indicator status-inactive"></span>
-          <span id="status-text">Cuenta Inactiva</span>
-          <button id="logout-btn" class="btn btn-danger" style="margin-left: 20px;">
-            <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
-          </button>
-        </div>
-      </header>
-
-      <div class="wallet-card">
-        <h3>Saldo Actual</h3>
-        <h2 id="wallet-balance">$0.00</h2>
-        <div id="active-status" style="margin-top: 10px; display: none;">
-          <span class="status-indicator status-active"></span>
-          <span>Cuenta Activada - Disfruta de FradCard Shop</span>
-        </div>
-      </div>
-
-      <div class="wallet-actions">
-        <div class="action-card" id="recharge-btn">
-          <i class="fas fa-money-bill-wave"></i>
-          <h3>Recargar Wallet</h3>
-          <p>Agregar fondos a tu cuenta</p>
-        </div>
-        <div class="action-card" id="activate-account-btn">
-          <i class="fas fa-bolt"></i>
-          <h3>Activar Cuenta</h3>
-          <p>Habilita todas las funciones</p>
-        </div>
-      </div>
-
-      <!-- Sección de Recarga -->
-      <div id="recharge-section" style="display: none; margin-top: 30px;">
-        <h3><i class="fas fa-money-bill-transfer"></i> Recargar Saldo</h3>
-        <div class="message info">
-          <p>Envía fondos a la siguiente dirección LTC (LITECOIN) :</p>
-        </div>
-        
-        <div class="wallet-address">
-          Ld3NKuJKpnWW76sw9zwNN9cd3Ax6itCwmA
-          <button class="copy-btn" id="copy-address">
-            <i class="fas fa-copy"></i> Copiar
-          </button>
-        </div>
-        
-        <div class="message warning">
-          <p>⚠️ <strong>Esperando fondos:</strong> Una vez que hayas enviado los fondos, presiona "Activar Cuenta" para verificar la transacción.</p>
-          <p>Recarga mínima de $100 USD para activar la cuenta.</p>
-        </div>
-        
-        <button class="btn btn-danger" id="cancel-recharge">
-          <i class="fas fa-times"></i> Cerrar
-        </button>
-      </div>
-
-      <!-- Sección de Activación -->
-      <div id="activation-section" style="display: none; margin-top: 30px;">
-        <div class="activation-process">
-          <h3><i class="fas fa-cogs"></i> Activación de Cuenta</h3>
-          <div id="activation-message" class="message warning">
-            <p>Estamos verificando fondos, una vez tengamos la confirmación la cuenta estará activa y podrás disfrutar de la shop FradCard.</p>
-            <p>Recuerda que se requiere un depósito mínimo de $100 USD para activar tu cuenta.</p>
-          </div>
-          
-          <div id="activation-success" style="display: none;">
-            <div class="message success">
-              <p>¡Felicidades! Tu cuenta ha sido activada correctamente.</p>
-            </div>
-            <div class="support-info">
-              <h3><i class="fas fa-headset"></i> Soporte 24/7 - Tarjetas de Primera Mano</h3>
-              <p>Ahora puedes disfrutar de todos los beneficios de FradCard Shop.</p>
-            </div>
-          </div>
-          
-          <div id="activation-failure" style="display: none;">
-            <div class="message error">
-              <p>No se detectaron fondos. La cuenta ha quedado desactivada. Por favor, recarga tu wallet con al menos $100 USD e intenta nuevamente.</p>
-            </div>
-          </div>
-          
-          <button class="btn" id="confirm-activation">
-            <i class="fas fa-check-circle"></i> Verificar Fondos
-          </button>
-          <button class="btn btn-danger" id="cancel-activation">
-            <i class="fas fa-times"></i> Cancelar
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Footer con condiciones de uso -->
-  <div class="footer">
-    <p>© 2023 FradCard Wallet - Todos los derechos reservados</p>
-    <button class="terms-btn" id="terms-btn">Condiciones</button>
-  </div>
-
-  <!-- Modal de condiciones de uso -->
-  <div class="terms-modal" id="terms-modal">
-    <div class="terms-content">
-      <span class="close-terms" id="close-terms">&times;</span>
-      <h2><i class="fas fa-file-contract"></i> Condiciones de Uso</h2>
-      <p>Al utilizar FradCard Wallet, aceptas las siguientes condiciones:</p>
-      
-      <h3>Recarga Mínima</h3>
-      <p>Para activar tu cuenta y acceder a todos los servicios de FradCard, es necesario realizar una recarga mínima de $100 USD.</p>
-      
-      <h3>Política de Reembolso</h3>
-      <p>Ofrecemos reembolso del 50% si la tarjeta no funciona, siempre y cuando el problema sea reportado dentro de las 3 horas posteriores a la compra.</p>
-      
-      <h3>Privacidad y Anonimato</h3>
-      <p>Garantizamos el anonimato en todas las transacciones. No almacenamos información personal que pueda comprometer tu identidad.</p>
-      
-      <h3>Soporte Técnico</h3>
-      <p>Nuestro equipo de soporte está disponible 24/7 para asistirte con cualquier problema técnico o consulta sobre nuestros servicios.</p>
-      
-      <h3>Limitación de Responsabilidad</h3>
-      <p>FradCard no se hace responsable por el uso indebido de la plataforma o por transacciones realizadas fuera de nuestros servidores seguros.</p>
-      
-      <div class="message info">
-        <p>Al utilizar nuestros servicios, aceptas estas condiciones en su totalidad.</p>
-      </div>
+    
+    <div class="info-box">
+      <p><span class="highlight">RECARGAS O USUARIOS NUEVOS</span> estarán activando cuando regresemos.</p>
+      <p>Agradecemos tu paciencia y comprensión durante este proceso.</p>
     </div>
   </div>
 
   <script>
-    // Ocultar preloader después de 5 segundos
-    setTimeout(() => {
-      document.getElementById('preloader').style.opacity = '0';
-      setTimeout(() => {
-        document.getElementById('preloader').style.display = 'none';
-      }, 500);
-    }, 5000);
-
-    // Elementos DOM
-    const authSystem = document.getElementById('auth-system');
-    const dashboard = document.getElementById('dashboard');
-    const authInner = document.getElementById('auth-inner');
-    const loginForm = document.getElementById('login-form');
-    const registerForm = document.getElementById('register-form');
-    const switchToRegister = document.getElementById('switch-to-register');
-    const switchToLogin = document.getElementById('switch-to-login');
-    const authMessage = document.getElementById('auth-message');
-    const logoutBtn = document.getElementById('logout-btn');
-    const walletBalance = document.getElementById('wallet-balance');
-    const rechargeBtn = document.getElementById('recharge-btn');
-    const activateAccountBtn = document.getElementById('activate-account-btn');
-    const rechargeSection = document.getElementById('recharge-section');
-    const cancelRecharge = document.getElementById('cancel-recharge');
-    const copyAddressBtn = document.getElementById('copy-address');
-    const activationSection = document.getElementById('activation-section');
-    const confirmActivation = document.getElementById('confirm-activation');
-    const cancelActivation = document.getElementById('cancel-activation');
-    const activationMessage = document.getElementById('activation-message');
-    const activationSuccess = document.getElementById('activation-success');
-    const activationFailure = document.getElementById('activation-failure');
-    const accountStatus = document.getElementById('account-status');
-    const statusText = document.getElementById('status-text');
-    const activeStatus = document.getElementById('active-status');
-    const termsBtn = document.getElementById('terms-btn');
-    const termsModal = document.getElementById('terms-modal');
-    const closeTerms = document.getElementById('close-terms');
-
-    // Estado de la aplicación
-    let currentUser = null;
-    let users = JSON.parse(localStorage.getItem('users')) || [];
+    // Configurar la fecha de finalización (24 horas a partir de ahora)
+    const countDownDate = new Date();
+    countDownDate.setHours(countDownDate.getHours() + 24);
     
-    // Inicializar
-    function init() {
-      // Verificar si hay usuario logueado
-      const loggedInUser = localStorage.getItem('currentUser');
-      if (loggedInUser) {
-        currentUser = JSON.parse(loggedInUser);
-        showDashboard();
-        updateAccountStatus();
+    // Actualizar el contador cada segundo
+    const countdownFunction = setInterval(function() {
+      // Obtener la fecha y hora actual
+      const now = new Date().getTime();
+      
+      // Encontrar la distancia entre ahora y la fecha de finalización
+      const distance = countDownDate - now;
+      
+      // Cálculos de tiempo para horas, minutos y segundos
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+      
+      // Mostrar el resultado en los elementos correspondientes
+      document.getElementById("hours").innerHTML = hours.toString().padStart(2, '0');
+      document.getElementById("minutes").innerHTML = minutes.toString().padStart(2, '0');
+      document.getElementById("seconds").innerHTML = seconds.toString().padStart(2, '0');
+      
+      // Si el contador llega a cero, mostrar un mensaje
+      if (distance < 0) {
+        clearInterval(countdownFunction);
+        document.getElementById("hours").innerHTML = "00";
+        document.getElementById("minutes").innerHTML = "00";
+        document.getElementById("seconds").innerHTML = "00";
+        document.querySelector(".countdown-title").innerHTML = "¡El mantenimiento ha finalizado!";
       }
-      
-      // Configurar event listeners
-      setupEventListeners();
-    }
-    
-    // Configurar event listeners
-    function setupEventListeners() {
-      // Alternar entre login y registro
-      switchToRegister.addEventListener('click', () => {
-        authInner.classList.add('flipped');
-      });
-      
-      switchToLogin.addEventListener('click', () => {
-        authInner.classList.remove('flipped');
-      });
-      
-      // Envío del formulario de login
-      loginForm.addEventListener('submit', handleLogin);
-      
-      // Envío del formulario de registro
-      registerForm.addEventListener('submit', handleRegister);
-      
-      // Cerrar sesión
-      logoutBtn.addEventListener('click', logout);
-      
-      // Botones del dashboard
-      rechargeBtn.addEventListener('click', showRechargeSection);
-      activateAccountBtn.addEventListener('click', showActivationSection);
-      
-      // Botones de recarga
-      cancelRecharge.addEventListener('click', hideRechargeSection);
-      copyAddressBtn.addEventListener('click', copyWalletAddress);
-      
-      // Botones de activación
-      confirmActivation.addEventListener('click', processActivation);
-      cancelActivation.addEventListener('click', hideActivationSection);
-      
-      // Términos y condiciones
-      termsBtn.addEventListener('click', () => {
-        termsModal.style.display = 'flex';
-      });
-      
-      closeTerms.addEventListener('click', () => {
-        termsModal.style.display = 'none';
-      });
-      
-      // Cerrar modal al hacer clic fuera
-      termsModal.addEventListener('click', (e) => {
-        if (e.target === termsModal) {
-          termsModal.style.display = 'none';
-        }
-      });
-    }
-    
-    // Manejar login
-    function handleLogin(e) {
-      e.preventDefault();
-      
-      const email = document.getElementById('login-email').value;
-      const password = document.getElementById('login-password').value;
-      
-      // Intentar login
-      const user = users.find(u => u.email === email && u.password === password);
-      if (user) {
-        currentUser = user;
-        localStorage.setItem('currentUser', JSON.stringify(user));
-        showDashboard();
-        updateAccountStatus();
-      } else {
-        showMessage('Credenciales incorrectas', 'error');
-      }
-    }
-    
-    // Manejar registro
-    function handleRegister(e) {
-      e.preventDefault();
-      
-      const email = document.getElementById('register-email').value;
-      const password = document.getElementById('register-password').value;
-      const confirm = document.getElementById('register-confirm').value;
-      
-      // Validar contraseñas
-      if (password !== confirm) {
-        showMessage('Las contraseñas no coinciden', 'error');
-        return;
-      }
-      
-      // Intentar registro
-      const existingUser = users.find(u => u.email === email);
-      if (existingUser) {
-        showMessage('Este correo ya está registrado', 'error');
-      } else {
-        const newUser = {
-          email,
-          password,
-          balance: 0,
-          isActive: false,
-          hasTriedActivation: false,
-          createdAt: new Date().toISOString()
-        };
-        
-        users.push(newUser);
-        localStorage.setItem('users', JSON.stringify(users));
-        
-        currentUser = newUser;
-        localStorage.setItem('currentUser', JSON.stringify(newUser));
-        
-        showMessage('Registro exitoso. Bienvenido!', 'success');
-        setTimeout(() => {
-          showDashboard();
-          updateAccountStatus();
-        }, 1500);
-      }
-    }
-    
-    // Cerrar sesión
-    function logout() {
-      currentUser = null;
-      localStorage.removeItem('currentUser');
-      showAuthSystem();
-    }
-    
-    // Mostrar mensajes
-    function showMessage(text, type) {
-      authMessage.textContent = text;
-      authMessage.className = `message ${type}`;
-      authMessage.style.display = 'block';
-    }
-    
-    // Mostrar sistema de autenticación
-    function showAuthSystem() {
-      authSystem.style.display = 'block';
-      dashboard.style.display = 'none';
-      loginForm.reset();
-      registerForm.reset();
-      authMessage.style.display = 'none';
-    }
-    
-    // Mostrar dashboard
-    function showDashboard() {
-      authSystem.style.display = 'none';
-      dashboard.style.display = 'block';
-      hideRechargeSection();
-      hideActivationSection();
-      
-      // Actualizar saldo
-      if (currentUser) {
-        walletBalance.textContent = `$${currentUser.balance.toFixed(2)}`;
-      }
-    }
-    
-    // Actualizar estado de la cuenta
-    function updateAccountStatus() {
-      if (!currentUser) return;
-      
-      if (currentUser.isActive) {
-        accountStatus.className = 'status-indicator status-active';
-        statusText.textContent = 'Cuenta Activada';
-        activeStatus.style.display = 'block';
-      } else {
-        accountStatus.className = 'status-indicator status-inactive';
-        statusText.textContent = 'Cuenta Inactiva';
-        activeStatus.style.display = 'none';
-      }
-    }
-    
-    // Mostrar sección de recarga
-    function showRechargeSection() {
-      rechargeSection.style.display = 'block';
-      hideActivationSection();
-    }
-    
-    // Ocultar sección de recarga
-    function hideRechargeSection() {
-      rechargeSection.style.display = 'none';
-    }
-    
-    // Copiar dirección de wallet
-    function copyWalletAddress() {
-      navigator.clipboard.writeText("Ld3NKuJKpnWW76sw9zwNN9cd3Ax6itCwmA")
-        .then(() => {
-          alert('Dirección copiada al portapapeles');
-        })
-        .catch(err => {
-          console.error('Error al copiar: ', err);
-        });
-    }
-    
-    // Mostrar sección de activación
-    function showActivationSection() {
-      activationSection.style.display = 'block';
-      rechargeSection.style.display = 'none';
-      
-      // Reiniciar mensajes de activación
-      activationSuccess.style.display = 'none';
-      activationFailure.style.display = 'none';
-      activationMessage.style.display = 'block';
-    }
-    
-    // Ocultar sección de activación
-    function hideActivationSection() {
-      activationSection.style.display = 'none';
-    }
-    
-    // Procesar activación de cuenta
-    function processActivation() {
-      // Simular verificación de fondos (en una app real, esto se conectaría a una API de blockchain)
-      const hasFunds = Math.random() > 0.5; // 50% de probabilidad de tener fondos
-      
-      if (hasFunds) {
-        // Activación exitosa
-        activationMessage.style.display = 'none';
-        activationSuccess.style.display = 'block';
-        activationFailure.style.display = 'none';
-        
-        // Actualizar estado del usuario
-        currentUser.isActive = true;
-        currentUser.balance += 100; // Añadir saldo como ejemplo
-        
-        // Actualizar en localStorage
-        const userIndex = users.findIndex(u => u.email === currentUser.email);
-        if (userIndex !== -1) {
-          users[userIndex] = currentUser;
-          localStorage.setItem('users', JSON.stringify(users));
-          localStorage.setItem('currentUser', JSON.stringify(currentUser));
-        }
-        
-        // Actualizar UI
-        walletBalance.textContent = `$${currentUser.balance.toFixed(2)}`;
-        updateAccountStatus();
-      } else {
-        // Activación fallida
-        activationMessage.style.display = 'none';
-        activationSuccess.style.display = 'none';
-        activationFailure.style.display = 'block';
-        
-        // Marcar que el usuario intentó activar sin fondos
-        currentUser.hasTriedActivation = true;
-        
-        // Actualizar en localStorage
-        const userIndex = users.findIndex(u => u.email === currentUser.email);
-        if (userIndex !== -1) {
-          users[userIndex] = currentUser;
-          localStorage.setItem('users', JSON.stringify(users));
-          localStorage.setItem('currentUser', JSON.stringify(currentUser));
-        }
-      }
-    }
-    
-    // Inicializar la aplicación
-    init();
+    }, 1000);
   </script>
 </body>
 </html>
+
 
